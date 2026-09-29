@@ -1,1 +1,232 @@
-<PLACEHOLDER>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITINA Guides — Practical PDF guides for real life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF6EE; --ink:#241B14; --grey:#6E6255; --line:#E4D9C6;
+    --teal:#17695F; --teal-deep:#0F4A44; --terra:#BF5F45; --gold:#D9A44E;
+    --sand:#F3EAD9; --card:#FFFFFF; --on-teal:#EAF3F1;
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html{ scroll-padding-top: env(safe-area-inset-top, 0px); }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#191510; --ink:#F1E9DC; --grey:#B7A891; --line:#3A3126;
+      --sand:#241E16; --card:#211B14; --on-teal:#EAF3F1;
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:#191510; --ink:#F1E9DC; --grey:#B7A891; --line:#3A3126;
+    --sand:#241E16; --card:#211B14; --on-teal:#EAF3F1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--cream); color:var(--ink); font-family:'Lora',Georgia,serif; font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,.disp{ font-family:'Poppins',Helvetica,Arial,sans-serif; color:var(--ink); }
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 28px;}
+  .eyebrow{ font-family:'Poppins',sans-serif; font-weight:600; font-size:12px; letter-spacing:.13em; color:var(--terra); margin-bottom:12px; }
+  a{color:inherit;}
+
+  header{ padding:24px 0; }
+  .headbar{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{ font-family:'Poppins',sans-serif; font-weight:700; font-size:16px; color:var(--teal-deep); }
+  .brand span{ color:var(--terra); }
+
+  /* ---- Hero / catalog intro ---- */
+  .hero{ padding:26px 0 44px; }
+  .hero h1{ font-size:clamp(28px,4.2vw,42px); font-weight:700; line-height:1.15; max-width:16ch; }
+  .hero p{ margin-top:16px; max-width:52ch; color:var(--grey); font-size:17.5px; font-style:italic; }
+
+  /* ---- Catalog grid ---- */
+  .catalog{ padding-bottom:80px; }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
+  .card .thumb{ height:170px; background:var(--sand); position:relative; overflow:hidden; }
+  .card .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .card .body{ padding:20px 22px 22px; display:flex; flex-direction:column; flex:1; }
+  .card h3{ font-size:18px; font-weight:600; line-height:1.3; }
+  .card p.tag{ margin-top:8px; color:var(--grey); font-size:14.5px; line-height:1.5; flex:1; }
+  .card .foot{ margin-top:16px; display:flex; align-items:center; justify-content:space-between; }
+  .price-tag{ font-family:'Poppins',sans-serif; font-weight:700; font-size:15.5px; color:var(--teal-deep); }
+  .btn{ font-family:'Poppins',sans-serif; font-weight:600; font-size:13.5px; color:#fff; background:var(--teal);
+    padding:9px 16px; border-radius:100px; border:none; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease; }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 8px 18px rgba(23,105,95,.28); }
+
+  .card.soon{ border-style:dashed; }
+  .card.soon .thumb{ display:flex; align-items:center; justify-content:center; background:
+    repeating-linear-gradient(135deg, var(--sand) 0 12px, var(--card) 12px 24px); }
+  .card.soon .thumb .plus{ font-family:'Poppins',sans-serif; font-size:34px; font-weight:600; color:var(--line); }
+  .card.soon h3{ color:var(--grey); }
+  .card.soon .foot .price-tag{ color:var(--grey); font-weight:600; font-size:13.5px; font-family:'Poppins',sans-serif; }
+
+  footer{ padding:30px 0 46px; text-align:center; font-size:13px; color:var(--grey); font-family:'Poppins',sans-serif; }
+
+  /* ---- Detail view ---- */
+  #view-detail{ display:none; }
+  .back{ display:inline-flex; align-items:center; gap:8px; font-family:'Poppins',sans-serif; font-weight:600;
+    font-size:13.5px; color:var(--teal); background:none; border:none; cursor:pointer; padding:0; margin:28px 0 20px; }
+  .detail-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:52px; align-items:start; padding-bottom:70px; }
+  .detail-grid img{ border-radius:16px; box-shadow:0 24px 50px -18px rgba(15,74,68,.32); }
+  .detail-title{ font-size:clamp(26px,3.6vw,34px); font-weight:700; line-height:1.18; }
+  .detail-sub{ margin-top:14px; color:var(--grey); font-size:17px; font-style:italic; max-width:44ch; }
+  .inside-list{ margin-top:26px; list-style:none; }
+  .inside-list li{ display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); font-size:15px; }
+  .inside-list li:last-child{ border-bottom:none; }
+  .inside-list b{ font-family:'Poppins',sans-serif; font-weight:600; font-size:12px; color:var(--gold); flex:none; width:60px; }
+  .buy-box{ margin-top:28px; background:var(--sand); border:1px solid var(--line); border-radius:14px; padding:22px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .buy-box .price{ font-family:'Poppins',sans-serif; font-weight:700; font-size:24px; color:var(--teal-deep); }
+  .buy-box small{ display:block; font-family:'Lora',serif; font-style:italic; font-weight:400; font-size:13.5px; color:var(--grey); margin-top:2px; }
+  .buy-big{ font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; color:#fff; background:var(--teal);
+    padding:14px 26px; border-radius:100px; border:none; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease; }
+  .buy-big:hover{ transform:translateY(-1px); box-shadow:0 10px 22px rgba(23,105,95,.30); }
+
+  .fade-in{ animation:fade .35s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){ .fade-in{ animation:none; } }
+
+  @media (max-width:900px){
+    .grid{ grid-template-columns:repeat(2,1fr); }
+    .detail-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:560px){ .grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap"><div class="headbar">
+  <span class="brand">ITINA <span>Guides</span></span>
+</div></header>
+
+<!-- ============ CATALOG VIEW ============ -->
+<div id="view-catalog">
+  <section class="hero wrap">
+    <div class="eyebrow">PRACTICAL PDF GUIDES</div>
+    <h1>Straightforward guides you can act on.</h1>
+    <p>Pick a guide, see what's inside, get the PDF instantly. Each guide is ₦2,000.</p>
+  </section>
+
+  <section class="catalog wrap">
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<!-- ============ DETAIL VIEW ============ -->
+<div id="view-detail" class="wrap">
+  <button class="back" onclick="showCatalog()">&larr; All guides</button>
+  <div class="detail-grid" id="detailContent"></div>
+</div>
+
+<footer>ITINA Guides · practical PDF guides for real life</footer>
+
+<script>
+/* =====================================================================
+   HOW TO ADD A NEW GUIDE
+   Add one object to the GUIDES array below. Fields:
+   - id:      short unique slug, no spaces
+   - status:  'live' (buyable) or 'soon' (greyed out, not clickable)
+   - title, tagline: shown on the card and detail page
+   - price:   number, in naira
+   - cover:   a data:image/... base64 string, or leave '' to use a plain
+              tinted panel instead (fine while you don't have art yet)
+   - inside:  array of {part, text} — the "what's inside" list
+   - buyHref: '#' for now (shows a placeholder alert) — swap for your
+              real Paystack/Flutterwave link per guide once it's ready
+   New 'soon' cards need no fields beyond id, status and title.
+   ===================================================================== */
+  const GUIDES = [
+    {
+      id: 'disciplined-child',
+      status: 'live',
+      title: 'How to Raise a Disciplined Child Without Constant Shouting',
+      tagline: 'A calm, practical system for Nigerian parents — 5 parts, 17 chapters, 8 printable tools.',
+      price: 2000,
+      cover: '',
+      inside: [
+        {part:'I', text:'Foundations — what discipline really means, and the 5-step Calm Parent system.'},
+        {part:'II', text:'Family rules, stopping the repeat-yourself cycle, and fair consequences.'},
+        {part:'III', text:'Tantrums, ages 3–15, chores, homework, screens, back-chat, sibling fights.'},
+        {part:'IV', text:'Correcting without breaking confidence, praise, repairing after you lose your temper.'},
+        {part:'V', text:'A 7-day Calm Discipline reset, plus 8 printable tools and 50 phrases to use.'},
+      ],
+      buyHref: '#'
+    },
+    { id: 'placeholder-1', status: 'soon', title: 'Your next guide' },
+    { id: 'placeholder-2', status: 'soon', title: 'Your next guide' },
+  ];
+
+  const grid = document.getElementById('grid');
+
+  function nairaFmt(n){ return '₦' + n.toLocaleString('en-NG'); }
+
+  function renderCatalog(){
+    grid.innerHTML = GUIDES.map(g => {
+      if(g.status === 'soon'){
+        return `<div class="card soon">
+          <div class="thumb"><span class="plus">+</span></div>
+          <div class="body">
+            <h3>${g.title}</h3>
+            <p class="tag">A new guide will appear here.</p>
+            <div class="foot"><span class="price-tag">Coming soon</span></div>
+          </div>
+        </div>`;
+      }
+      return `<div class="card">
+        <div class="thumb"><img src="${g.cover}" alt="${g.title}"></div>
+        <div class="body">
+          <h3>${g.title}</h3>
+          <p class="tag">${g.tagline}</p>
+          <div class="foot">
+            <span class="price-tag">${nairaFmt(g.price)}</span>
+            <button class="btn" onclick="showDetail('${g.id}')">View guide</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function showDetail(id){
+    const g = GUIDES.find(x => x.id === id);
+    if(!g) return;
+    document.getElementById('detailContent').innerHTML = `
+      <img src="${g.cover}" alt="${g.title}">
+      <div>
+        <div class="eyebrow">GUIDE DETAILS</div>
+        <h2 class="detail-title">${g.title}</h2>
+        <p class="detail-sub">${g.tagline}</p>
+        <ul class="inside-list">
+          ${g.inside.map(i => `<li><b>PART ${i.part}</b><span>${i.text}</span></li>`).join('')}
+        </ul>
+        <div class="buy-box">
+          <div><span class="price">${nairaFmt(g.price)}</span><small>one-time · instant PDF</small></div>
+          <button class="buy-big" onclick="buy('${g.id}')">Get the guide</button>
+        </div>
+      </div>`;
+    document.getElementById('view-catalog').style.display = 'none';
+    const dv = document.getElementById('view-detail');
+    dv.style.display = 'block'; dv.classList.remove('fade-in'); void dv.offsetWidth; dv.classList.add('fade-in');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  function showCatalog(){
+    document.getElementById('view-detail').style.display = 'none';
+    const cv = document.getElementById('view-catalog');
+    cv.style.display = 'block'; cv.classList.remove('fade-in'); void cv.offsetWidth; cv.classList.add('fade-in');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  function buy(id){
+    alert('Payment link coming soon — checkout is being set up for this guide.');
+  }
+
+  renderCatalog();
+</script>
+</body>
+</html>
